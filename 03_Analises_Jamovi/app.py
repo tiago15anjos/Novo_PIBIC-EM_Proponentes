@@ -57,7 +57,20 @@ st.subheader("Análise da participação e recorrência dos pesquisadores no Pro
 st.markdown(f"**Amostra:** {df_filtered.shape[0]} pesquisadores selecionados.")
 st.markdown(f"**Período Analisado:** 2014-2024")
 st.markdown("Este dashboard apresenta uma análise detalhada da participação dos pesquisadores no programa PIBIC-EM, explorando aspectos geopolíticos, de mérito, recorrência e desigualdade. Use os filtros na barra lateral para personalizar a visualização dos dados.")
-st.markdown("Para fazer o download dos dados filtrados, clique [aqui](#) (link para download do CSV).")
+# Supondo que 'df_filtrado' seja o seu DataFrame com os dados
+# Converta o DataFrame para CSV em memória
+def convert_df_to_csv(df):
+    return df.to_csv(index=False).encode('utf-8')
+
+csv = convert_df_to_csv(df_filtered)
+
+# Crie o botão de download
+st.download_button(
+   label="Clique aqui para fazer o download dos dados",
+   data=csv,
+   file_name='dados_filtrados.csv',
+   mime='text/csv',
+)
 st.markdown("---")
 
 # --- Abas ---
