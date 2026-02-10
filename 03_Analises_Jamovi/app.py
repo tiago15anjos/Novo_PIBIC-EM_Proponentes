@@ -3,6 +3,8 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
+import os
+from scipy import integrate
 
 # --- Configuração Inicial da Página ---
 st.set_page_config(page_title="Dashboard PIBIC-EM", layout="wide", page_icon="📊")
@@ -11,8 +13,12 @@ st.set_page_config(page_title="Dashboard PIBIC-EM", layout="wide", page_icon="�
 @st.cache_data
 def load_data():
     try:
+        # Obtém o diretório do script atual
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        # Caminho do arquivo CSV
+        csv_path = os.path.join(script_dir, '2025_12_18_participacao_PIBIC-EM_categoria_adm_corrigida_v5.csv')
         # Carregando dados
-        df = pd.read_csv('2025_12_18_participacao_PIBIC-EM_categoria_adm_corrigida_v5.csv')
+        df = pd.read_csv(csv_path)
         return df
     except FileNotFoundError:
         return None
@@ -371,7 +377,7 @@ with tab5:
         lorenz_y = np.insert(lorenz_y, 0, 0)
         
         # Cálculo Gini
-        area_sob_lorenz = np.trapz(lorenz_y, lorenz_x)
+        area_sob_lorenz = integrate.trapezoid(lorenz_y, lorenz_x)
         gini = (0.5 - area_sob_lorenz) / 0.5
         
         fig_lorenz = go.Figure()
